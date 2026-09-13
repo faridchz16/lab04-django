@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Digital - 4to Ciclo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 40px 20px; }
+        .wrapper { max-width: 900px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        header h1 { font-size: 2.5rem; color: #111827; font-weight: 700; margin-bottom: 10px; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card h3 { font-size: 1.25rem; color: #111827; margin-bottom: 8px; font-weight: 600; }
+        .card .author { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .btn:hover { background-color: var(--primary-hover); }
+        
+        .footer-actions {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .admin-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .admin-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>📚 Biblioteca Digital</h1>
+            <p>Sistema de gestión bibliotecaria — Proyecto Académico</p>
+        </header>
+
+        <div class="grid">
+            {% for book in books %}
+                <div class="card">
+                    <div>
+                        <h3>{{ book.title }}</h3>
+                        <p class="author">Autor: <strong>{{ book.author }}</strong></p>
+                    </div>
+                    <a href="{% url 'library:book_detail' book.id %}" class="btn">Ver Detalles</a>
+                </div>
+            {% empty %}
+                <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No hay libros registrados en el sistema.</p>
+            {% endfor %}
+        </div>
+
+        <div class="footer-actions">
+            <a href="/admin/" class="admin-link">⚙️ Acceder al Panel de Administración (Django Admin)</a>
+        </div>
+    </div>
+</body>
+</html>

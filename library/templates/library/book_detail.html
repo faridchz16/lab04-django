@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} - Detalle del Libro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --tag-bg: #e0e7ff;
+            --tag-color: #3730a3;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 40px 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        
+        .back-link { display: inline-block; color: var(--primary); text-decoration: none; font-weight: 500; margin-bottom: 24px; }
+        .back-link:hover { text-decoration: underline; }
+
+        h1 { font-size: 2.2rem; color: #111827; font-weight: 700; margin-bottom: 12px; }
+        .summary { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 30px; }
+
+        .section { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border-color); }
+        .section h3 { font-size: 1.2rem; color: #111827; margin-bottom: 12px; font-weight: 600; }
+
+        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: var(--tag-bg); color: var(--tag-color); padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: 500; }
+
+        .info-box { background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid var(--border-color); margin-top: 10px; }
+        .info-box p { margin-bottom: 8px; }
+        .info-box p:last-child { margin-bottom: 0; }
+
+        ul.pub-list { list-style: none; }
+        ul.pub-list li { background: #f9fafb; padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'library:book_list' %}" class="back-link">← Volver al Catálogo</a>
+        
+        <h1>{{ book.title }}</h1>
+        <p class="summary"><strong>Resumen:</strong> {{ book.summary|default:"Sin resumen disponible para este libro." }}</p>
+
+        <div class="section">
+            <h3>Categorías</h3>
+            <div class="tag-container">
+                {% for category in book.categories.all %}
+                    <span class="tag">{{ category.name }}</span>
+                {% empty %}
+                    <span style="color: var(--text-muted);">Sin categorías asignadas.</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Datos del Autor</h3>
+            <div class="info-box">
+                <p><strong>Autor Principal:</strong> {{ book.author }}</p>
+                <p><strong>Correo Electrónico:</strong> {{ book.author.email }}</p>
+                {% if book.author.profile %}
+                    <p><strong>Biografía:</strong> {{ book.author.profile.biography }}</p>
+                    <p><strong>Fecha de Nacimiento:</strong> {{ book.author.profile.birth_date|default:"No especificada" }}</p>
+                    {% if book.author.profile.website %}
+                        <p><strong>Sitio Web:</strong> <a href="{{ book.author.profile.website }}" target="_blank" style="color: var(--primary);">{{ book.author.profile.website }}</a></p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Editorial(es) y Publicación</h3>
+            <ul class="pub-list">
+                {% for pub in book.publication_set.all %}
+                    <li>
+                        <strong>Editorial:</strong> {{ pub.publisher.name }} ({{ pub.publisher.country }})<br>
+                        <span style="color: var(--text-muted); font-size: 0.95rem;">
+                            Fecha de Publicación: {{ pub.publication_date }} | Edición: {{ pub.edition }}ª
+                        </span>
+                    </li>
+                {% empty %}
+                    <li style="color: var(--text-muted);">Sin editoriales asociadas.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
