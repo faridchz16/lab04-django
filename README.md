@@ -4,6 +4,30 @@ Este repositorio contiene el desarrollo del proyecto de Django para la gestión 
 
 ---
 
+## 🚀 Descripción General del Proyecto
+
+Este laboratorio implementa un sistema backend y frontend modular en **Django** para la administración completa de una biblioteca digital. El desarrollo abarca desde la configuración inicial del proyecto y gestión de archivos multimedia hasta el modelado avanzado de bases de datos relacionales, validación de integridad referencial (`on_delete`), consultas avanzadas mediante el ORM de Django con doble guion bajo (`__`) y la construcción de vistas con una interfaz moderna basada en componentes y tarjetas.
+
+### 🔗 Enlaces de Acceso Local (Desarrollo)
+Una vez ejecutado el servidor (`python manage.py runserver`), puedes acceder a:
+- **Catálogo Principal (Frontend):** [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- **Panel de Administración (Django Admin):** [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) *(Credenciales de prueba: `admin` / `admin123`)*
+
+---
+
+## 📋 Resumen de Implementación (Paso a Paso)
+1. **Estructura y Dependencias:** Creación del proyecto `config`, instalación de **Pillow** para manejo de imágenes y registro de la aplicación `library` en `INSTALLED_APPS`.
+2. **Archivos de Medios:** Configuración de `MEDIA_URL` y `MEDIA_ROOT` en `settings.py` y enrutamiento en `config/urls.py` para desarrollo.
+3. **Modelos Relacionales:** Declaración de `Author`, `AuthorProfile`, `Category`, `Publisher`, `Book` y el modelo intermedio `Publication` en singular y con sus respectivos metadatos (`Meta`) y métodos de representación (`__str__`).
+4. **Relaciones de Modelos:** Configuración de `ForeignKey`, `OneToOneField`, `ManyToManyField` y modelo intermedio `through`.
+5. **Migraciones y Base de Datos:** Generación, aplicación y validación de tablas relacionales en SQLite.
+6. **Datos de Prueba:** Población inicial de autores, perfiles, categorías, editoriales, libros y publicaciones.
+7. **Consultas ORM:** Ejecución y registro de consultas de ida (`book.author`), de vuelta (`author.books.all()`) y filtrados avanzados con doble guion bajo (`__`).
+8. **Pruebas de Integridad Referential (`on_delete`):** Validación comparativa del comportamiento entre `CASCADE` y `PROTECT`.
+9. **Vistas, URLs y UI Moderna:** Desarrollo de vistas de listado y detalle con plantillas estilizadas en HTML/CSS moderno.
+
+---
+
 ## 📐 Modelo Relacional y Esquema de Relaciones
 
 El diseño de la base de datos se compone de los siguientes modelos y relaciones:
